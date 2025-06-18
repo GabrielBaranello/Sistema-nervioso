@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<title>Sopa de Letras Neurosensorial</title>
+<!-- 1) Estilos de wordfind y wordfindgame -->
+<link rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/wordfind@1.0.2/wordfind.css" />
+  <link rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/wordfindgame@2.0.0/wordfindgame.css" />
+
+  <style>
+    body { font-family: sans-serif; text-align: center; padding: 2rem; }
+    #puzzle { display: inline-block; margin-bottom: 1rem; }
+    #words { list-style: none; padding: 0; }
+    #words li.found { text-decoration: line-through; color: gray; }
+</style>
+</head>
+<body>
+<h1>🧩 Sopa de Letras Neurosensorial</h1>
+<!-- 2) Contenedores para la matriz y la lista -->
+<div id="puzzle"></div>
+<ul id="words"></ul>
+<!-- 3) Scripts en orden -->
+<script src="https://cdn.jsdelivr.net/npm/wordfind@1.0.2/wordfind.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/wordfindgame@2.0.0/wordfindgame.js"></script>
+<script>
+    // 4) Tus palabras
+    const palabras = [
+    'medulaespinal',
+    'cerebro',
+    'cerebelo',
+    'troncoencefalico',
+    'reflejomedular'
+    ];
+
+    // 5) Generar la matriz
+    const puzzle = wordfind.newPuzzle(palabras, {
+      height: 15,
+      width: 15,
+      orientations: [
+        'horizontal','horizontalBack',
+        'vertical','verticalUp',
+        'diagonal','diagonalBack',
+        'diagonalUp','diagonalUpBack'
+      ]
+    });
+
+    // 6) Crear el juego: le pasas el ID del div, la matriz y el ID de la lista
+    wordfindgame.create('puzzle', puzzle, 'words', {
+      // Opcional: callback cuando encuentras una palabra
+      onComplete: word => {
+        document
+          .querySelectorAll('#words li')
+          .forEach(li => {
+            if (li.textContent === word) li.classList.add('found');
+          });
+      }
+    });
+  </script>
+</body>
+</html>
