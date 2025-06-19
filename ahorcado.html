@@ -13,8 +13,7 @@
 <body>
 <h1>🧠Ahorcado Sensorial</h1>
 
-    <h2>🎯 Ahorcado Sensorial</h2>
-    <p>Adivina los sentidos ocultos (5 niveles)</p>
+    <p>Adivina las palabras ocultas (5 sentidos)</p>
     <canvas id="canvas" width="200" height="250"></canvas><br>
     <input id="letra" maxlength="1" />
     <button onclick="jugar()">Intentar letra</button>
@@ -66,14 +65,21 @@
 
     const ctx = document.getElementById("canvas").getContext("2d");
     function dibujar() {
-    if (errores === 1) ctx.fillRect(10, 230, 100, 5);
-    if (errores === 2) ctx.fillRect(50, 10, 5, 220);
-    if (errores === 3) ctx.fillRect(50, 10, 60, 5);
-    if (errores === 4) ctx.fillRect(110, 10, 5, 20);
-    if (errores === 5) {
+    if (errores === 1) {
+        ctx.fillRect(10, 230, 100, 5);
+    ctx.fillRect(50, 10, 5, 220);
+        ctx.fillRect(50, 10, 60, 5);
+        ctx.fillRect(110, 10, 5, 20)
+    }
+    if (errores === 2){
         ctx.beginPath();
         ctx.arc(112, 40, 10, 0, Math.PI * 2);
         ctx.stroke();
+    }
+    if (errores === 3) ;
+    if (errores === 4) ;
+    if (errores === 5) {
+        document.getElementById("mensaje").innerText = "Perdiste🙁🙁";
     }
     }
 
