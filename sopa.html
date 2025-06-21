@@ -1,64 +1,172 @@
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="UTF-8" />
-<title>Sopa de Letras Neurosensorial</title>
-<!-- 1) Estilos de wordfind y wordfindgame -->
-<link rel="stylesheet"
-        href="https://cdn.jsdelivr.net/npm/wordfind@1.0.2/wordfind.css" />
-  <link rel="stylesheet"
-        href="https://cdn.jsdelivr.net/npm/wordfindgame@2.0.0/wordfindgame.css" />
-
-  <style>
-    body { font-family: sans-serif; text-align: center; padding: 2rem; }
-    #puzzle { display: inline-block; margin-bottom: 1rem; }
-    #words { list-style: none; padding: 0; }
-    #words li.found { text-decoration: line-through; color: gray; }
-</style>
+    <meta charset="UTF-8">
+    <title>Sopa de Letras</title>
+    <style>
+        body { font-family: sans-serif; text-align: center; }
+        table { margin: 20px auto; border-collapse: collapse; }
+        td {
+            width: 35px; height: 35px; font-size: 18px;
+            text-align: center; border: 1px solid #333;
+            user-select: none; cursor: pointer;
+        }
+        .selected { background-color: lightblue; }
+        .found    { background-color: lightgreen; }
+        .boton {
+            margin: 1rem;
+            padding: 1rem 2rem;
+            background-color: #3498db;
+            color: white;
+            text-decoration: none;
+            border-radius: 10px;
+            font-size: 1.2rem;
+            display:none;
+            margin-top: 10px;
+        }
+    </style>
 </head>
 <body>
-<h1>🧩 Sopa de Letras Neurosensorial</h1>
-<!-- 2) Contenedores para la matriz y la lista -->
-<div id="puzzle"></div>
-<ul id="words"></ul>
-<!-- 3) Scripts en orden -->
-<script src="https://cdn.jsdelivr.net/npm/wordfind@1.0.1/wordfind.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/wordfindgame@2.0.0/wordfindgame.js"></script>
-<script>
-    console.log(wordfind);
-    console.log(wordfindgame); 
-    // 4) Tus palabras
-    const palabras = [
-    'medulaespinal',
-    'cerebro',
-    'cerebelo',
-    'troncoencefalico',
-    'reflejomedular'
-    ];
+    <h1>🧩 Sopa de Letras Neurosensorial</h1>
+    <h2>Palabras a encontrar: MÉDULA, CEREBRO, CEREBELO, TRONCO, REFLEJO</h2>
+    <table id="puzzle"></table>
+    <div id="resultado" style="margin-top: 20px; font-size: 20px;"></div>
+    <button class= "boton" id="volver" onclick="location.href='index.html'">Volver al inicio</button>
+    <script>
+        const palabras = ["medula", "cerebro", "cerebelo", "tronco", "reflejo"];
+        const maxLen   = Math.max(...palabras.map(p => p.length));
+        const N = 10;
+        let matriz = Array.from({ length: N }, () => Array(N).fill(""));
 
-    // 5) Generar la matriz
-    const puzzle = wordfind.newPuzzle(palabras, {
-      height: 15,
-      width: 15,
-      orientations: [
-        'horizontal','horizontalBack',
-        'vertical','verticalUp',
-        'diagonal','diagonalBack',
-        'diagonalUp','diagonalUpBack'
-      ]
-    });
+        function colocar(palabra) {
+            const dirs = [[0,1],[1,0],[1,1]];
+            for (let intento = 0; intento < 100; intento++) {
+                const [dx, dy] = dirs[Math.floor(Math.random() * dirs.length)];
+                let x = Math.floor(Math.random() * N);
+                let y = Math.floor(Math.random() * N);
+                let ok = true;
+                for (let i = 0; i < palabra.length; i++) {
+                    let xi = x + dx * i, yi = y + dy * i;
+                    if (xi >= N || yi >= N || (matriz[xi][yi] && matriz[xi][yi] !== palabra[i])) {
+                        ok = false; break;
+                    }
+                }
+                if (!ok) continue;
+                for (let i = 0; i < palabra.length; i++) {
+                    matriz[x + dx*i][y + dy*i] = palabra[i];
+                }
+                return;
+            }
+        }
 
-    // 6) Crear el juego: le pasas el ID del div, la matriz y el ID de la lista
-    wordfindgame.create('puzzle', puzzle, 'words', {
-      // Opcional: callback cuando encuentras una palabra
-      onComplete: word => {
-        document
-          .querySelectorAll('#words li')
-          .forEach(li => {
-            if (li.textContent === word) li.classList.add('found');
-          });
-      }
-    });
-  </script>
+        palabras.forEach(colocar);
+        matriz = matriz.map(row => row.map(c => c || String.fromCharCode(65 + Math.random()*26 | 0)));
+
+        const tablero = document.getElementById("puzzle");
+        for (let i = 0; i < N; i++) {
+            const fila = tablero.insertRow();
+            for (let j = 0; j < N; j++) {
+                const celda = fila.insertCell();
+                celda.textContent = matriz[i][j].toUpperCase();
+            }
+        }
+
+        let clickSel = [], dragSel = [];
+        let arrastrando = false, movimiento = false;
+
+        tablero.addEventListener("pointerdown", e => {
+            if (e.button !== 0) return; // solo arrastre con botón izquierdo
+            const td = e.target.closest("td");
+            if (!td) return;
+            arrastrando = true;
+            movimiento = false;
+            dragSel = [td];
+            td.classList.add("selected");
+            tablero.setPointerCapture(e.pointerId);
+        });
+
+        tablero.addEventListener("pointermove", e => {
+            if (!arrastrando) return;
+            movimiento = true;
+            const el = document.elementFromPoint(e.clientX, e.clientY);
+            if (!el || el.tagName !== "TD" || dragSel.includes(el)) return;
+            dragSel.push(el);
+            el.classList.add("selected");
+        });
+
+        tablero.addEventListener("pointerup", e => {
+            if (arrastrando && movimiento) {
+                verificar(dragSel, true);
+                dragSel.forEach(c => c.classList.remove("selected"));
+                dragSel = [];
+            }
+            arrastrando = false;
+            movimiento = false;
+            tablero.releasePointerCapture(e.pointerId);
+        });
+
+        // Clic derecho personalizado
+        tablero.addEventListener("contextmenu", e => {
+            e.preventDefault();
+            const td = e.target.closest("td");
+            if (!td || td.tagName !== "TD") return;
+            if (dragSel.includes(td)) return;
+
+            if (!clickSel.includes(td)) {
+                clickSel.push(td);
+                td.classList.add("selected");
+            } else {
+                td.classList.remove("selected");
+                clickSel = clickSel.filter(x => x !== td);
+            }
+
+            if (clickSel.length >= 2) {
+                if (verificar(clickSel, true)) {
+                    clickSel = [];
+                } else if (clickSel.length === maxLen) {
+                    clickSel.forEach(c => c.classList.remove("selected"));
+                    clickSel = [];
+                }
+            }
+        });
+
+        function verificar(lista, borrarSiNoCoincide) {
+            const texto = lista.map(c => c.textContent.toLowerCase()).join("");
+            const reverso = texto.split("").reverse().join("");
+            if (palabras.includes(texto) || palabras.includes(reverso)) {
+                lista.forEach(c => c.classList.replace("selected", "found"));
+                return true;
+            }
+            return false;
+        }
+
+        tablero.addEventListener("dragstart", e => e.preventDefault());
+        let inicio = Date.now();
+
+        function verificar(lista, borrarSiNoCoincide) {
+            const texto = lista.map(c => c.textContent.toLowerCase()).join("");
+            const reverso = texto.split("").reverse().join("");
+            if (palabras.includes(texto) || palabras.includes(reverso)) {
+                lista.forEach(c => c.classList.replace("selected", "found"));
+                checkVictoria();
+                return true;
+            }
+            return false;
+        }
+
+function checkVictoria() {
+    const encontradas = document.querySelectorAll(".found").length;
+    const letrasTotales = palabras.reduce((a, p) => a + p.length, 0);
+    if (encontradas >= letrasTotales) {
+        const totalSeg = Math.floor((Date.now() - inicio) / 1000);
+        const minutos = Math.floor(totalSeg / 60);
+        const segundos = totalSeg % 60;
+        const tiempoFormateado = `${minutos}:${segundos.toString().padStart(2, '0')}`;
+        document.getElementById("resultado").textContent = `¡Ganaste en ${tiempoFormateado} minutos! 🎉🎉🎉`;
+        document.getElementById("volver").style.display = "inline-block";
+    }
+}
+    </script>
 </body>
 </html>
