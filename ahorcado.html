@@ -70,15 +70,47 @@
     ctx.fillRect(50, 10, 5, 220);
         ctx.fillRect(50, 10, 60, 5);
         ctx.fillRect(110, 10, 5, 20)
-    }
-    if (errores === 2){
         ctx.beginPath();
         ctx.arc(112, 40, 10, 0, Math.PI * 2);
         ctx.stroke();
     }
-    if (errores === 3) ;
-    if (errores === 4) ;
+    if (errores === 2){
+        ctx.beginPath();
+ctx.moveTo(112, 50);  // cuello
+ctx.lineTo(112, 100); // tronco
+ctx.stroke();
+    }
+    if (errores === 3) {
+        ctx.beginPath();
+ctx.moveTo(112, 60);
+ctx.lineTo(92, 80);
+ctx.stroke();
+
+// --- Brazo derecho ---
+ctx.beginPath();
+ctx.moveTo(112, 60);
+ctx.lineTo(132, 80);
+ctx.stroke();
+    }
+    if (errores === 4) {
+        ctx.beginPath();
+ctx.moveTo(112, 100);
+ctx.lineTo(95, 130);
+ctx.stroke();
+
+// --- Pierna derecha ---
+ctx.beginPath();
+ctx.moveTo(112, 100);
+ctx.lineTo(129, 130);
+ctx.stroke();
+    }
     if (errores === 5) {
+        ctx.beginPath();
+    ctx.moveTo(102, 47);  // lado izquierdo del cuello
+    ctx.lineTo(122, 47);  // lado derecho del cuello
+    ctx.strokeStyle = "black";
+    ctx.lineWidth = 2;
+    ctx.stroke();
         document.getElementById("mensaje").innerText = "Perdiste🙁🙁";
     }
     }
@@ -89,3 +121,4 @@
 </script>
 </body>
 </html>
+
