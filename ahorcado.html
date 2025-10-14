@@ -11,12 +11,12 @@
 </style>
 </head>
 <body>
-<h1>Ahorcado de Urano</h1>
+<h1>🧠Ahorcado Sensorial</h1>
 
     <p>Adivina las palabras ocultas (5 sentidos)</p>
     <canvas id="canvas" width="200" height="250"></canvas><br>
     <input id="letra" maxlength="1" />
-    <button id="boton">Intentar letra</button>
+    <button onclick="jugar()">Intentar letra</button>
     <p id="palabra"></p>
     <p id="mensaje"></p>
 
@@ -24,118 +24,100 @@
 <script>
     const niveles = ['planeta', 'metano', 'urano', 'gaseoso', 'gigantehelado'];
     let nivel = 0;
-        let palabra = niveles[nivel];
-        let estado = '_'.repeat(palabra.length).split('');
-        let errores = 0;
-document.getElementById("boton").addEventListener("click", jugar);
+    let palabra = niveles[nivel];
+    let estado = '_'.repeat(palabra.length).split('');
+    let errores = 0;
 
-        const canvas = document.getElementById("canvas");
-        const ctx = canvas.getContext("2d");
+    document.getElementById("palabra").innerText = estado.join(' ');
 
-        document.getElementById("palabra").innerText = estado.join(' ');
+    function jugar() {
+    const entrada = document.getElementById("letra");
+    const letra = entrada.value.toLowerCase();
+    entrada.value = '';
+    if (!letra || errores >= 5 || estado.join('') === palabra) return;
 
-        function jugar() {
-            const entrada = document.getElementById("letra");
-            const letra = entrada.value.toLowerCase();
-            entrada.value = '';
-
-            if (!letra || errores >= 5 || estado.join('') === palabra) return;
-
-            if (palabra.includes(letra)) {
-                palabra.split('').forEach((l, i) => {
-                    if (l === letra) estado[i] = letra;
-                });
-            } else {
-                errores++;
-                dibujar();
-            }
-
+    if (palabra.includes(letra)) {
+        palabra.split('').forEach((l, i) => {
+        if (l === letra) estado[i] = letra;
+        });
+    } else {
+        errores++;
+        dibujar();
+    }
+    document.getElementById("palabra").innerText = estado.join(' ');
+    if (estado.join('') === palabra) {
+        document.getElementById("mensaje").innerText = "¡Bien hecho! Pasamos al siguiente sentido.";
+        setTimeout(() => {
+        errores = 0;
+        nivel++;
+        if (nivel < niveles.length) {
+            palabra = niveles[nivel];
+            estado = '_'.repeat(palabra.length).split('');
             document.getElementById("palabra").innerText = estado.join(' ');
-
-            if (estado.join('') === palabra) {
-                document.getElementById("mensaje").innerText = "¡Bien hecho! Pasamos al siguiente sentido.";
-                setTimeout(() => {
-                    errores = 0;
-                    nivel++;
-                    if (nivel < niveles.length) {
-                        palabra = niveles[nivel];
-                        estado = '_'.repeat(palabra.length).split('');
-                        document.getElementById("palabra").innerText = estado.join(' ');
-                        document.getElementById("mensaje").innerText = "";
-                        limpiarCanvas();
-                    } else {
-                        document.getElementById("mensaje").innerText = "🎉 ¡Completaste todos los niveles!";
-                    }
-                }, 1000);
-            }
-
-            if (errores >= 5) {
-                document.getElementById("mensaje").innerText = "Perdiste 🙁🙁";
-            }
+            document.getElementById("mensaje").innerText = "";
+            limpiarCanvas();
+        } else {
+            document.getElementById("mensaje").innerText = "🎉 ¡Completaste todos los niveles!";
         }
+        }, 1000);
+    }
+    }
 
-        function dibujar() {
-            ctx.strokeStyle = "black";
-            ctx.lineWidth = 2;
+    const ctx = document.getElementById("canvas").getContext("2d");
+    function dibujar() {
+    if (errores === 1) {
+        ctx.fillRect(10, 230, 100, 5);
+    ctx.fillRect(50, 10, 5, 220);
+        ctx.fillRect(50, 10, 60, 5);
+        ctx.fillRect(110, 10, 5, 20)
+        ctx.beginPath();
+        ctx.arc(112, 40, 10, 0, Math.PI * 2);
+        ctx.stroke();
+    }
+    if (errores === 2){
+        ctx.beginPath();
+ctx.moveTo(112, 50);  // cuello
+ctx.lineTo(112, 100); // tronco
+ctx.stroke();
+    }
+    if (errores === 3) {
+        ctx.beginPath();
+ctx.moveTo(112, 60);
+ctx.lineTo(92, 80);
+ctx.stroke();
 
-            switch(errores) {
-                case 1:
-                    // Horca
-                    ctx.fillRect(10, 230, 100, 5);
-                    ctx.fillRect(50, 10, 5, 220);
-                    ctx.fillRect(50, 10, 60, 5);
-                    ctx.fillRect(110, 10, 5, 20);
-                    // Cabeza
-                    ctx.beginPath();
-                    ctx.arc(112, 40, 10, 0, Math.PI * 2);
-                    ctx.stroke();
-                    break;
-                case 2:
-                    // Tronco
-                    ctx.beginPath();
-                    ctx.moveTo(112, 50);
-                    ctx.lineTo(112, 100);
-                    ctx.stroke();
-                    break;
-                case 3:
-                    // Brazos
-                    ctx.beginPath();
-                    ctx.moveTo(112, 60);
-                    ctx.lineTo(92, 80); // brazo izquierdo
-                    ctx.stroke();
+// --- Brazo derecho ---
+ctx.beginPath();
+ctx.moveTo(112, 60);
+ctx.lineTo(132, 80);
+ctx.stroke();
+    }
+    if (errores === 4) {
+        ctx.beginPath();
+ctx.moveTo(112, 100);
+ctx.lineTo(95, 130);
+ctx.stroke();
 
-                    ctx.beginPath();
-                    ctx.moveTo(112, 60);
-                    ctx.lineTo(132, 80); // brazo derecho
-                    ctx.stroke();
-                    break;
-                case 4:
-                    // Piernas
-                    ctx.beginPath();
-                    ctx.moveTo(112, 100);
-                    ctx.lineTo(95, 130); // pierna izquierda
-                    ctx.stroke();
+// --- Pierna derecha ---
+ctx.beginPath();
+ctx.moveTo(112, 100);
+ctx.lineTo(129, 130);
+ctx.stroke();
+    }
+    if (errores === 5) {
+        ctx.beginPath();
+    ctx.moveTo(102, 47);  // lado izquierdo del cuello
+    ctx.lineTo(122, 47);  // lado derecho del cuello
+    ctx.strokeStyle = "black";
+    ctx.lineWidth = 2;
+    ctx.stroke();
+        document.getElementById("mensaje").innerText = "Perdiste🙁🙁";
+    }
+    }
 
-                    ctx.beginPath();
-                    ctx.moveTo(112, 100);
-                    ctx.lineTo(129, 130); // pierna derecha
-                    ctx.stroke();
-                    break;
-                case 5:
-                    // Línea que atraviesa el cuello (marcando pérdida)
-                    ctx.beginPath();
-                    ctx.moveTo(102, 47);
-                    ctx.lineTo(122, 47);
-                    ctx.stroke();
-                    break;
-            }
-        }
-
-        function limpiarCanvas() {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-        }
-    </script>
+    function limpiarCanvas() {
+    ctx.clearRect(0, 0, 200, 250);
+    }
+</script>
 </body>
 </html>
-
-
