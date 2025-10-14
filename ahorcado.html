@@ -16,44 +16,18 @@
     <p>Adivina las palabras ocultas (5 sentidos)</p>
     <canvas id="canvas" width="200" height="250"></canvas><br>
     <input id="letra" maxlength="1" />
-    <button onclick="jugar()">Intentar letra</button>
+    <button id="boton">Intentar letra</button>
     <p id="palabra"></p>
     <p id="mensaje"></p>
 
 
 <script>
     const niveles = ['planeta', 'metano', 'urano', 'gaseoso', 'gigantehelado'];
-    let nivel = 0;ChatGPT
-Dijiste:
-Porque no funciona el Javascript de este código: <!DOCTYPE html>
-<html lang="es">
-<head>
-<meta charset="UTF-8" />
-<title>Neurojuegos</title>
-<style>
-    body { font-family: sans-serif; text-align: center; background: #eef; }
-    .juego { margin: 2rem auto; }
-    canvas { background: #fff; border: 2px solid #000; margin: 1rem 0; }
-    button { margin: 0.5rem; padding: 0.5rem 1rem; }
-</style>
-</head>
-<body>
-<h1>🧠Ahorcado Sensorial</h1>
-
-    <p>Adivina las palabras ocultas (5 sentidos)</p>
-    <canvas id="canvas" width="200" height="250"></canvas><br>
-    <input id="letra" maxlength="1" />
-    <button onclick="jugar()">Intentar letra</button>
-    <p id="palabra"></p>
-    <p id="mensaje"></p>
-
-
-<script>
-    const niveles = ['vista', 'oido', 'tacto', 'gusto', 'olfato'];
     let nivel = 0;
         let palabra = niveles[nivel];
         let estado = '_'.repeat(palabra.length).split('');
         let errores = 0;
+document.getElementById("boton").addEventListener("click", jugar);
 
         const canvas = document.getElementById("canvas");
         const ctx = canvas.getContext("2d");
@@ -163,4 +137,5 @@ Porque no funciona el Javascript de este código: <!DOCTYPE html>
     </script>
 </body>
 </html>
+
 
