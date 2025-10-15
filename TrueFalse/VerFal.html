@@ -1,0 +1,199 @@
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>V F</title>
+    <style>
+        /*body {
+            font-family: sans-serif;
+            font-size: 20px;
+            font-weight: 600;
+            padding-left: 200px;
+        }*/
+        body {
+            font-family: "Segoe UI", Arial, sans-serif;
+            background: #f2f6fa;
+            color: #333;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 40px;
+        }   
+
+        ol {
+            background: #fff;
+            padding: 20px 40px;
+            border-radius: 12px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            width: 400px;
+            counter-reset: pregunta;
+        }
+
+        li {
+            margin-bottom: 16px;
+            line-height: 1.6;
+            list-style: none;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        li::before {
+            counter-increment: pregunta;
+            content: counter(pregunta) ". ";
+            font-weight: bold;
+            color: #0074d9;
+            margin-right: 8px;
+        }
+
+        .v-f {
+            padding: 6px 10px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            background: #f9f9f9;
+            font-size: 14px;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .v-f:hover {
+            background: #eef5ff;
+            border-color: #0074d9;
+        }
+
+        button {
+            margin: 10px 5px;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 8px;
+            font-size: 15px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: 0.3s ease;
+        }
+
+        #Enviar {
+            background-color: #0074d9;
+            color: white;
+        }
+
+        #Enviar:hover {
+            background-color: #005fa3;
+        }
+
+        #Reiniciar {
+            background-color: #e0e0e0;
+            color: #333;
+        }
+
+        #Reiniciar:hover {
+            background-color: #cfcfcf;
+        }
+
+        div {
+            margin-top: 25px;
+            text-align: center;
+        }
+
+        #mens {
+            font-weight: bold;
+            font-size: 16px;
+        }
+
+        #resultado {
+            font-size: 18px;
+            color: #0074d9;
+        }
+
+        #imagen {
+            display: block;
+            margin: 15px auto;
+            max-width: 200px;
+            border-radius: 8px;
+        }
+
+        #res {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 25px;
+        }
+        .texto-resultado {
+            text-align: left;
+        }
+
+    </style>
+</head>
+<body>
+    <h1>Verdadero ✅ o falso ❌</h1>
+    <ol>
+    <li>El Sol representa más del 99% de la masa total del sistema solar.<select class="v-f" id="1">
+        <option value="v">Verdadero</option>
+        <option value="f">Falso</option>
+    </select></li>
+    <li>El planeta más cercano al Sol es Venus.<select class="v-f" id="2">
+        <option value="v">Verdadero</option>
+        <option value="f">Falso</option>
+    </select></li>
+    <li>Júpiter es el planeta con más lunas conocidas.<select class="v-f" id="3">
+        <option value="v">Verdadero</option>
+        <option value="f">Falso</option>
+    </select></li>
+    <li>Plutón sigue siendo considerado un planeta principal del sistema solar<select class="v-f" id="4">
+        <option value="v">Verdadero</option>
+        <option value="f">Falso</option>
+    </select></li>
+    <li>Urano es el séptimo planeta desde el Sol.<select class="v-f" id="5">
+        <option value="v">Verdadero</option>
+        <option value="f">Falso</option>
+    </select></li>
+    <li>Urano rota de forma casi horizontal, de lado.<select class="v-f" id="6">
+        <option value="v">Verdadero</option>
+        <option value="f">Falso</option>
+    </select></li>
+    <li>Urano tiene un color rojizo debido al hierro en su atmósfera. <select class="v-f" id="7">
+        <option value="v">Verdadero</option>
+        <option value="f">Falso</option>
+    </select></li>
+    <li>Urano tiene anillos al igual que Saturno. <select class="v-f" id="8">
+        <option value="v">Verdadero</option>
+        <option value="f">Falso</option>
+    </select></li>
+    </ol>
+    <button id="Enviar">Enviar respuestas</button>
+    <button id="Reiniciar" onclick="location.reload()">Reiniciar</button>
+    <div id="res"><div class="texto-resultado"><p id="mens"></p><p id="resultado"></p></div><img src="" id="imagen" ></div>
+    <script>
+        document.getElementById('Enviar').onclick = function() {
+            let respuestas = ['v', 'v', 'v', 'f', 'v', 'v', 'f', 'v'];
+            let puntaje = 0;
+            for (let i = 0; i < respuestas.length; i++) {
+                let seleccion = document.getElementById((i + 1).toString()).value;
+                if (seleccion === respuestas[i]) {
+                    puntaje++;
+                }
+            }
+
+            let mensaje = '';
+            let imagen = '';
+            if (puntaje === respuestas.length) {
+                mensaje = '¡Excelente! Has respondido todo correctamente.';
+                imagen = 'gold.png';
+            } else if (puntaje >= respuestas.length / 2) {
+                mensaje = '¡Bien hecho! Pero puedes mejorar.';
+                imagen = 'silver.png';
+            } else if (puntaje == 0) {
+                mensaje = '¡Vaya! No has acertado ninguna. ¡Inténtalo de nuevo!';
+                imagen = 'lamentable.png';
+            } else if (puntaje !== 0 && puntaje < respuestas.length / 2) {
+                mensaje = 'Necesitas estudiar más. ¡No te rindas!';
+                imagen = 'bronce.png';
+            }
+
+            console.log(puntaje);
+            document.getElementById('mens').textContent = mensaje;
+            document.getElementById('resultado').textContent = `Tu puntaje: ${puntaje} de ${respuestas.length}`;
+            document.getElementById('imagen').src = imagen;
+        };
+    </script>
+</body>
