@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -28,13 +27,14 @@
     </style>
 </head>
 <body>
-    <h1>🧩 Sopa de Letras del sistema solar</h1>
+    <h1>🧩 Sopa de Letras de Radiacion</h1>
     <h2>Palabras a encontrar: planetas, ateroides, orbita, satélite, sol</h2>
     <table id="puzzle"></table>
     <div id="resultado" style="margin-top: 20px; font-size: 20px;"></div>
-    <button class= "boton" id="volver" onclick="location.href='index.html'">Volver al inicio</button>
+    <button class= "boton" id="volver" onclick="location.href='inicio.html'">Volver al inicio</button>
     <script>
-        const palabras = ["planetas", "asteroides", "orbita", "satélite", "sol"];
+        //const palabras = [ "geiger", "radiacion", "radio", "beta", "gamma", "isotopo", "polonio", "cesio"];
+        const palabras = [ "geiger"];
         const maxLen   = Math.max(...palabras.map(p => p.length));
         const N = 10;
         let matriz = Array.from({ length: N }, () => Array(N).fill(""));
