@@ -11,7 +11,7 @@
 </style>
 </head>
 <body>
-<h1>Ahorcado de Urano</h1>
+<h1>Ahorcado de Marie Curie</h1>
 
     <p>Adivina las 5 palabras ocultas</p>
     <canvas id="canvas" width="200" height="250"></canvas><br>
@@ -46,7 +46,7 @@
     }
     document.getElementById("palabra").innerText = estado.join(' ');
     if (estado.join('') === palabra) {
-        document.getElementById("mensaje").innerText = "¡Bien hecho! Pasamos al siguiente sentido.";
+        document.getElementById("mensaje").innerText = "¡Bien hecho! Pasamos a la siguiente palabra.";
         setTimeout(() => {
         errores = 0;
         nivel++;
