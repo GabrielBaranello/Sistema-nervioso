@@ -18,13 +18,14 @@
     <input id="letra" maxlength="1" />
     <button onclick="jugar()">Intentar letra</button>
     <p id="palabra"></p>
+    <b>Pista:</b>
     <p id="pistas"></p>
     <p id="mensaje"></p>
 
 
 <script>
     const niveles = ['anemia', 'polonio', 'polonia', 'piere', 'radio'];
-    const pistas = ['primera pista', 'segunda', 'tercera', 'cuarta', 'quinta' ]
+    const pistas = ['Enfermedad por la que murió Marie Curie', 'Elemento descubierto por Marie Curie llamado en honor a su país natal', 'País natal de Marie Curie', 'Apellido de el esposo de Marie Curie', 'Elemento descubierto por Marie Curie' ]
     let nivel = 0;
     let palabra = niveles[nivel];
     let pista = pistas[nivel]
@@ -54,7 +55,7 @@
         errores = 0;
         nivel++;
         pista = pistas[nivel]
-            document.getElementById("pistas").innerText
+        document.getElementById("pistas").innerText = pista;
         if (nivel < niveles.length) {
             palabra = niveles[nivel];
             estado = '_'.repeat(palabra.length).split('');
