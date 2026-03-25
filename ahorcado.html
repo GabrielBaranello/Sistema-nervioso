@@ -18,16 +18,19 @@
     <input id="letra" maxlength="1" />
     <button onclick="jugar()">Intentar letra</button>
     <p id="palabra"></p>
+    <p id="pistas"></p>
     <p id="mensaje"></p>
 
 
 <script>
     const niveles = ['anemia', 'polonio', 'polonia', 'piere', 'radio'];
+    const pistas = ['primera pista', 'segunda', 'tercera', 'cuarta', 'quinta' ]
     let nivel = 0;
     let palabra = niveles[nivel];
+    let pista = pistas[nivel]
     let estado = '_'.repeat(palabra.length).split('');
     let errores = 0;
-
+    document.getElementById("pistas").innerText = pista
     document.getElementById("palabra").innerText = estado.join(' ');
 
     function jugar() {
@@ -50,6 +53,8 @@
         setTimeout(() => {
         errores = 0;
         nivel++;
+        pista = pistas[nivel]
+            document.getElementById("pistas").innerText
         if (nivel < niveles.length) {
             palabra = niveles[nivel];
             estado = '_'.repeat(palabra.length).split('');
