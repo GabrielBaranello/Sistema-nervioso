@@ -28,15 +28,35 @@
 </head>
 <body>
     <h1>🧩 Sopa de Letras de Radiacion</h1>
-    <h2>Palabras a encontrar: planetas, ateroides, orbita, satélite, sol</h2>
+    <h2>Definiciones dr las palabras a encontrar:</h2>
+    <ul>
+        <li>Inventor de el contador Geiger</li>
+        <li>Partículas altamente ionizantes emitidas por un cuerpo que en grandes cantidades son dañinas </li>
+        <li>Tipo de radiación</li>
+        <li>Otro tipo de radiación </li>
+        <li>Termino aplicado a los átomos que poseen una cantidad distinta de protones a la de neutrones y que emiten radiación </li>
+        <li>Elemento descubierto por Marie Curie llamado en honor a su país natal</li>
+        <li>Isotopo radiactivo no descubierto por Marie Curie que empieza con "c"*/</li>
+    </ul>
     <table id="puzzle"></table>
     <div id="resultado" style="margin-top: 20px; font-size: 20px;"></div>
     <button class= "boton" id="volver" onclick="location.href='inicio.html'">Volver al inicio</button>
     <script>
         const palabras = [ "geiger", "radiacion", "radio", "beta", "gamma", "isotopo", "polonio", "cesio"];
         //const palabras = [ "geiger"];
+        /* Las de la sopa serían: 
+* Inventor de el contador Geiger
+* Partículas altamente ionizantes emitidas por un cuerpo que en grandes cantidades son dañinas 
+* Tipo de radiación 
+* Otro tipo de radiación 
+* Termino aplicado a los átomos que poseen una cantidad distinta de protones a la de neutrones y que emiten radiación 
+Tipo de radiación* Elemento descubierto por Marie Curie llamado en honor a su país natal
+* Isotopo radiactivo no descubierto por Marie Curie que empieza con "c"*/
         const maxLen   = Math.max(...palabras.map(p => p.length));
         const N = 10;
+        const definiciones = [
+            "Inventor de el contador Geiger"
+        ]
         let matriz = Array.from({ length: N }, () => Array(N).fill(""));
 
         function colocar(palabra) {
